@@ -1,6 +1,7 @@
-import './index.scss';
+import './main.scss';
 import 'babel-polyfill';
 import 'bootstrap';
+
 
 const btn = $('#btn');
 const list = $('#list');
@@ -50,13 +51,10 @@ var page = {
 
 
 $(window).on('load', () => {
-    page.init();
-    btn.on('click',async () => await page.getMusics());
+    // page.init();
+    // btn.on('click',async () => await page.getMusics());
 
 });
-
-
-
 
 
 

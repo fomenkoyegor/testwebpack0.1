@@ -13,7 +13,11 @@ const ImageminPlugin = require('imagemin-webpack-plugin').default;
 
 
 module.exports = {
-
+    entry: './src/index.js',
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: "main.js"
+    },
     module: {
         rules: [
             {
@@ -37,25 +41,20 @@ module.exports = {
             },
 
             {
+                test: /\.html$/,
+                use: ['html-loader']
+            },
+
+            {
                 test: /\.(png|svg|jpg|gif)$/,
-                loaders: [
+                use: [
                     {
                         loader: 'file-loader',
                         options: {
                             name: '[path][name].[ext]',
                         }
-                    },
-                    {
-                        loader: "img-loader"
-                    },
-
+                    }
                 ]
-            },
-            {
-                test: /\.svg/,
-                use: {
-                    loader: 'svg-url-loader'
-                }
             },
 
             {
@@ -66,13 +65,21 @@ module.exports = {
                         name: '[path][name].[ext]',
                     }
                 }]
-            }
+            },
+
+            {
+                test: /\.svg/,
+                use: {
+                    loader: 'svg-url-loader'
+                }
+            },
+
+
         ]
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
-        new CopyWebpackPlugin([{from: 'src/assets', to: 'assets'}]),
-        new ImageminPlugin({ test: /\.(jpe?g|png|gif)$/i }),
+
 
         new MiniCssExtractPlugin({
             filename: '[name].css'
@@ -86,12 +93,7 @@ module.exports = {
         }),
         new ExtractTextPlugin("styles.css"),
         new HtmlWebpackPlugin({
-            hash: false,
-            title: 'My Awesome application',
-            myPageHeader: 'Hello World',
             template: './src/index.html',
-            removeScriptTypeAttributes: false,
-            removeStyleLinkTypeAttributes: false,
         })
     ],
     devServer: {
