@@ -46,40 +46,35 @@ module.exports = {
             },
 
             {
-                test: /\.(png|svg|jpg|gif)$/,
+                test: /\.(png|jpg|gif)$/,
                 use: [
                     {
                         loader: 'file-loader',
-                        options: {
-                            name: '[path][name].[ext]',
-                        }
+                        options: {name:'[path][name].[ext]'}
                     }
                 ]
             },
 
             {
-                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                test: /\.(woff(2)?|ttf|eot|)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [{
                     loader: 'file-loader',
-                    options: {
-                        name: '[path][name].[ext]',
-                    }
+                    options: {name:'[path][name].[ext]'}
                 }]
             },
 
             {
-                test: /\.svg/,
-                use: {
-                    loader: 'svg-url-loader'
-                }
+                test: /\.svg$/,
+                loader: 'svg-url-loader',
             },
+
 
 
         ]
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
-
+        // new CopyWebpackPlugin([{from: './src/assets/', to: './assets/'}]),
 
         new MiniCssExtractPlugin({
             filename: '[name].css'
@@ -93,11 +88,11 @@ module.exports = {
         }),
         new ExtractTextPlugin("styles.css"),
         new HtmlWebpackPlugin({
-            template: './src/index.html',
+            template: './index.html',
         })
     ],
     devServer: {
-        contentBase: __dirname + "/src"
+        contentBase: __dirname + "/"
     },
     optimization: {
         minimizer: [new UglifyJsPlugin({
